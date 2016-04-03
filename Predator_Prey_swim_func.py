@@ -7,7 +7,7 @@ size = 100 # grid size
 breed_age_fish = 15
 breed_age_shark=50
 starve_time=10
-
+t=0
 Fish = -1*np.ones((size+1, size+1), dtype=np.int)
 Shark = -1*np.ones((size+1, size+1), dtype=np.int)
 Fishmove = -1*np.ones((size+1, size+1), dtype=np.int)
@@ -15,12 +15,12 @@ Sharkmove = -1*np.ones((size+1, size+1), dtype=np.int)
 Sharkstarve = np.zeros((size+1, size+1), dtype=np.int)
 
 # initial condition for Fish
-for j in range(100):
-    for i in range(49):
+for j in range(size):
+    for i in range(size/2-1):
         Fish[j,2*i+mod(j,2)]=0
 # initial condition for Shark
-for j in range(25):
-    for i in range(24):
+for j in range(size/4):
+    for i in range(size/4-1):
         Shark[4*j,4*i+mod(j,4)]=0
 
 def Fish_swim_breed(yu,breed_age):
@@ -137,19 +137,31 @@ def Shark_hunt_breed(shayu,shayustarve,fish,stave_time,breed_age)
     return (sharkmove[1:size+1,1:size+1],sharkstarve[1:size+1,1:size+1])
 
 # when shark encounter a fish, erase the fish
-def fisheaten(fish,shark)
-    for i in range(100):
-        for j in range(100):
+def Fisheaten(fish,shark)
+    for i in range(size):
+        for j in range(size):
             if shark[i,j]!=-1:
                 fish[i,j]=-1
     return fish
 
 # order for one time step: 1.fish swim and breed 2. shark hunt breed 3. shark eat fish
+while(t<500)
 Fish=Fish_swim_breed(Fish,breed_age_fish)
 Shark,SharkStarve=Shark_hunt_breed(Shark,SharkStarve,Fish,starve_time,breed_age_shark)
-                
+Fish=Fisheaten(Fish,Shark)
+t=t+1
 
-
+# count number of fish and number of shark
+fish_num=0
+for i in range(size):
+    for j in range(size):
+        fish_num=fish_num+bool(Fish[i,j]+1)
+Fish_number.append(fish_num)
+shark_num=0
+for i in range(size):
+    for j in range(size):
+        shark_num=shark_num+bool(Shark[i,j]+1)
+t=t+1
             
             
             
