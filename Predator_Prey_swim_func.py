@@ -161,6 +161,7 @@ shark_num=0
 for i in range(size):
     for j in range(size):
         shark_num=shark_num+bool(Shark[i,j]+1)
+Shark_num=Shark_num.append(shark_num)
 t=t+1
             
             
