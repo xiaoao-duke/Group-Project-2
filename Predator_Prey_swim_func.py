@@ -79,26 +79,27 @@ def Shark_hunt_breed(shayu,shayustarve,fish,breed_age)
         for j in range(1,size+1)
             if shark[i,j] != -1: # if there is a shark in (i,j)
                 choice = np.zeros(4)
-            if (fish[i-1,j] != -1)&(occupied[i-1,j]==0):
-                choice[0] = 1 # record index if there is a fish at (i-1,j) and no shark is coming
-            if (fish[i+1,j] != -1)&(occupied[i+1,j]==0): 
-                choice[1] = 2 
-            if (fish[i, j+1] != -1)&(occupied[i,j-1]==0):
-                choice[2] = 3
-            if (fish[i, j-1] != -1)&(occupied[i,j+1]==0):
-                choice[3] = 4
-            Choice = filter(None, choice) # only fish and no shark coming spot are reserved
-            temp = [(i-1,j), (i+1,j), (i,j+1), (i,j-1)] # temperary storage for index
-            if np.size(Choice)>0:
-                index = np.random.choice(Choice)-1 # choose one position randomly
-                if fish[i,j]<breed_age:
-                    fishmove[temp[index]] = fishmove[temp[index]]+fish(i,j)+1  # a chosen position is replaced by fish (i,j) and age is increased
-                    fishmove[i,j]=fishmove[i,j]-fish[i,j]-1 # action of erasing current fish
-                    occupied[temp[index]]=1
-                else:  # if fish reach breed age
-                    fishmove[temp[index]]=1
-                    fishmove[i,j]=-fish[i,j]
-                    occupied[temp[index]]=1
+                if (fish[i-1,j] != -1)&(occupied[i-1,j]==0):
+                    choice[0] = 1 # record index if there is a fish at (i-1,j) and no shark is coming
+                if (fish[i+1,j] != -1)&(occupied[i+1,j]==0): 
+                    choice[1] = 2 
+                if (fish[i, j+1] != -1)&(occupied[i,j-1]==0):
+                    choice[2] = 3
+                if (fish[i, j-1] != -1)&(occupied[i,j+1]==0):
+                    choice[3] = 4
+                Choice = filter(None, choice) # only fish and no shark coming spot are reserved
+                temp = [(i-1,j), (i+1,j), (i,j+1), (i,j-1)] # temperary storage for index
+                if np.size(Choice)>0:
+                    index = np.random.choice(Choice)-1 # choose one position randomly
+                    if shark[i,j]<breed_age:
+                        sharkmove[temp[index]] = sharkhmove[temp[index]]+shark[i,j]+1  # a chosen position is replaced by fish (i,j) and age is increased
+                        sharkmove[i,j]=sharkmove[i,j]-shark[i,j]-1 # action of erasing current fish
+                        occupied[temp[index]]=1
+                        sharkstarve[i,j]=0
+                    else:  # if shark reach breed age
+                        sharkhmove[temp[index]]=1
+                        sharkmove[i,j]=-shark[i,j]
+                        occupied[temp[index]]=1
             else:
                 fishmove[i,j]=fishmove[i,j]+1 # if no place to go then stay there and age
     fishmove[1,1:size+2]=fishmove[1,1:size+2]+fishmove[size+1,1:size+2] # top boundary include from bottom to top(periodic boundary)
