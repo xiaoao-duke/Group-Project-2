@@ -6,6 +6,7 @@ Fish_number = []
 Shark_number = []
 dt = 0.1
 Time = 10
+movie = True
 wait_time = 1.0
 global size
 size = 40 # grid size
@@ -168,20 +169,35 @@ def Fisheaten(fish,shark):
                 fish[i,j] = -1
     return fish
 
+# function for plotting
+def plot_ocean(fish_num,shark_num):
+    for i in range(size):
+        for j in range(size):
+            if Shark[i,j]!=-1:
+                plt.plot(i,j,'or')
+            if Fish[i,j]!=-1:
+                plt.plot(i,j,'ob')
+    plt.title("time = "+str(t)+'\tSharks: ' + str(shark_num)+'\tFish: ' + str(fish_num))
+    plt.xlabel("Blue--Fish, Red--Shark")
+    plt.show()
+    plt.pause(wait_time)
+
+# make initial plot
+if movie:
+    plt.ion()
+    plt.figure()
+    plt.title("time = "+str(t))
+    plt.xlabel("Blue--Fish, Red--Shark")
+    for i in range(size):
+        for j in range(size):
+            if Shark[i,j]!=-1:
+                plt.plot(i,j,'or')
+            if Fish[i,j]!=-1:
+                plt.plot(i,j,'ob')
+    plt.show()
+    plt.pause(wait_time)
+
 # order for one time step: 1.fish swim and breed 2. shark hunt breed 3. shark eat fish
-plt.ion()
-plt.figure()
-plt.title("time = "+str(t))
-plt.xlabel("Blue--Fish, Red--Shark")
-plt.ylabel("Prey-Predator")
-for i in range(size):
-    for j in range(size):
-        if Shark[i,j]!=-1:
-            plt.plot(i,j,'or')
-        if Fish[i,j]!=-1:
-            plt.plot(i,j,'ob')
-plt.show()
-plt.pause(wait_time)
 
 while t < Time:
     plt.clf()
@@ -191,9 +207,6 @@ while t < Time:
             Fish = Fish_swim_breed(i,j,Fish, Shark, breed_age_fish)
             (Fish, Shark, Sharkstarve) = Shark_hunt_breed(i,j,Shark,Sharkstarve,Fish,starve_time,breed_age_shark)
             #Fish = Fisheaten(Fish,Shark)
-
-
-
     t=t+dt
 
     # count number of fish and number of shark
@@ -211,22 +224,14 @@ while t < Time:
     Shark_number.append(shark_num)
     print "Completed: "+str(100*t/Time)+"%"
 
-    for i in range(size):
-        for j in range(size):
-            if Shark[i,j]!=-1:
-                plt.plot(i,j,'or')
-            if Fish[i,j]!=-1:
-                plt.plot(i,j,'ob')
-    plt.title("time = "+str(t)+'\tSharks: ' + str(shark_num)+'\tFish: ' + str(fish_num))
-    plt.show()
-    plt.pause(wait_time)
+    if movie: plot_ocean(fish_num,shark_num) # update the plot
 
-#figure
-#plt.plot(Fish_number, '-b', label = "Fish")
-#plt.plot(Shark_number, '-r', label = "Shark")
-#plt.legend()
-#plt.title("Prey-Predator Model")
-#plt.ylabel("Population")
-#plt.xlabel("time")
-#plt.savefig("population.jpg")
-#plt.show()
+figure
+plt.plot(Fish_number, '-b', label = "Fish")
+plt.plot(Shark_number, '-r', label = "Shark")
+plt.legend()
+plt.title("Prey-Predator Model")
+plt.ylabel("Population")
+plt.xlabel("time")
+plt.savefig("population.jpg")
+plt.show()
