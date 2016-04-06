@@ -2,17 +2,21 @@ from pylab import*
 import random as rd
 import time
 
+############################ Program Parameters ################################
+
 Fish_number = []
 Shark_number = []
 dt = 0.1
-Time = 10
-movie = False
-wait_time = 2.0
+Time = 20
+movie = False # set to true to watch the ocean dynamically
+wait_time = 1.0
 global size
 size = 40 # grid size
-breed_age_Fish = 10
-breed_age_Shark = 4
-starve_time = 3
+n0_fish = 400 # initial number of fish
+n0_sharks = 400 # initial number of sharks
+breed_age_Fish = 15 # in units of dt
+breed_age_Shark = 15 # dt units
+starve_time = 5 # dt units
 t = 0
 Fish = -1*np.ones((size+1, size+1), dtype=np.int)
 Shark = -1*np.ones((size+1, size+1), dtype=np.int)
@@ -20,26 +24,33 @@ Fishmove = -1*np.ones((size+1, size+1), dtype=np.int)
 Sharkmove = -1*np.ones((size+1, size+1), dtype=np.int)
 Sharkstarve = np.zeros((size+1, size+1), dtype=np.int)
 
+############################ Initial Conditions ################################
+
+
 # initial condition for Fish
 k = 0
-while k < int(0.3*size**2):
-#while k < int(1000):
+#while k < int(0.3*size**2):
+while k < int(n0_fish):
     i = int(size*rd.random())-1
     j = int(size*rd.random())-1
     if Fish[i,j] == -1:
-        Fish[i,j] = 0
-        Fishmove[i,j] = 0
+        age = int((breed_age_Fish-1)*rd.random()) # assign fish random age
+        Fish[i,j] = age
+        Fishmove[i,j] = age
         k += 1
 # initial condition for Shark
 k = 0
-while k < int(0.05*size**2):
-#while k < int(1):
+#while k < int(0.05*size**2):
+while k < int(n0_sharks):
     i = int(size*rd.random())-1
     j = int(size*rd.random())-1
     if Shark[i,j] == -1 and Fish[i,j] == -1:
-        Shark[i,j] = 0
-        Sharkmove[i,j] = 0
+        age = int((breed_age_Shark-1)*rd.random()) # assign shark random age
+        Shark[i,j] = age
+        Sharkmove[i,j] = age
         k += 1
+
+############################ Methods for updates ###############################
 
 def boundary(point):
     (a, b) = point
@@ -135,7 +146,7 @@ def Shark_hunt_breed(i,j,Fish,Fishmove,Shark,Sharkmove,Sharkstarve):
         PlanB = filter(None,planB) # no Fish around spot without Shark are reserved
         temp = [(i-1,j), (i+1,j), (i,j-1), (i,j+1)] # temperary storage for index
         if np.size(PlanA) > 0:
-            index = int(np.random.choice(planA)-1) # choose one position randomly
+            index = int(np.random.choice(PlanA)-1) # choose one position randomly
             Fish[boundary(temp[index])] = -1
             if Shark[i,j] < breed_age_Shark:
                 Sharkmove[boundary(temp[index])] = Shark[i,j]+1  # a chosen position is replaced by Shark (i,j) and age is increased
@@ -150,7 +161,7 @@ def Shark_hunt_breed(i,j,Fish,Fishmove,Shark,Sharkmove,Sharkstarve):
                 Sharkstarve[i,j] = 0
         elif np.size(planB) > 0:
             index = int(np.random.choice(planB)-1)
-            if Sharkstarve[i,j]+1 < starve_time:
+            if Sharkstarve[i,j] < starve_time:
                 if Shark[i,j] < breed_age_Shark:
                     Sharkmove[boundary(temp[index])] = Shark[i,j]+1
                     Sharkmove[i,j] = -1
@@ -165,7 +176,7 @@ def Shark_hunt_breed(i,j,Fish,Fishmove,Shark,Sharkmove,Sharkstarve):
             else :
                 Sharkmove[i,j] = -1
         else: # Shark is surrounded by Shark, Shark do not move
-            if Sharkstarve[i,j]+1 < starve_time:
+            if Sharkstarve[i,j] < starve_time:
                 Sharkmove[i,j] = Shark[i,j]+1
                 Sharkstarve[i,j] = Sharkstarve[i,j]+1
             else :
@@ -185,7 +196,8 @@ def plot_ocean(Fish_num,Shark_num):
     plt.show()
     plt.pause(wait_time)
 
-# make initial plot
+############################ Initial Plotting ##################################
+
 if movie:
     plt.ion()
     plt.figure()
@@ -200,17 +212,17 @@ if movie:
     plt.show()
     plt.pause(wait_time)
 
+################################# Main Loop ####################################
+
 # order for one time step: 1.Fish swim and breed 2. Shark hunt breed 3. Shark eat Fish
 
-while t < Time:
+while t <= Time:
 
     # move fish
     for i in range(size):
         for j in range(size):
             if Fish[i,j] != -1:
-                #print 'Fish_before'+str([t,i,j])+'=' + str(Fish[i,j])
                 Fish_swim_breed(i,j,Fish,Fishmove,Shark,Sharkmove,Sharkstarve)
-                #print 'NewFish_after' + str(bb) + ' ' + str(Fish[bb])
     Fish[:] = Fishmove
 
     # move sharks
@@ -234,11 +246,13 @@ while t < Time:
             if Shark[i,j] != -1 :
 	        Shark_num += 1
     Shark_number.append(Shark_num)
-    print "Completed: "+str(100*t/Time)+"%"
+    print "Completed: "+str(100*(t-dt)/Time)+"%"
 
     if movie:
         plt.clf()
         plot_ocean(Fish_num,Shark_num) # update the plot
+
+############################ Plot Populations ##################################
 
 figure
 plt.plot(Fish_number, '-b', label = "Fish")
@@ -246,6 +260,6 @@ plt.plot(Shark_number, '-r', label = "Shark")
 plt.legend()
 plt.title("Prey-Predator Model")
 plt.ylabel("Population")
-plt.xlabel("time")
+plt.xlabel("time steps")
 plt.savefig("population.jpg")
 plt.show()
