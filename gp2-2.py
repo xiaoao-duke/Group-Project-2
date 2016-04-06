@@ -5,7 +5,8 @@ import time
 Fish_number = []
 Shark_number = []
 dt = 0.1
-Time = 1
+Time = 10
+wait_time = 1.0
 global size
 size = 40 # grid size
 breed_age_fish = 1.5
@@ -176,28 +177,25 @@ plt.ylabel("Prey-Predator")
 for i in range(size):
     for j in range(size):
         if Shark[i,j]!=-1:
-            plt.plot(i,j,'.r')
+            plt.plot(i,j,'or')
         if Fish[i,j]!=-1:
-            plt.plot(i,j,'.b')
+            plt.plot(i,j,'ob')
 plt.show()
-plt.pause(0.5)
-
+plt.pause(wait_time)
 
 while t < Time:
+    plt.clf()
+
     for i in range(size):
         for j in range(size):
             Fish = Fish_swim_breed(i,j,Fish, Shark, breed_age_fish)
             (Fish, Shark, Sharkstarve) = Shark_hunt_breed(i,j,Shark,Sharkstarve,Fish,starve_time,breed_age_shark)
             #Fish = Fisheaten(Fish,Shark)
 
-            if Shark[i,j]!=-1:
-                plt.plot(i,j,'.r')
-            if Fish[i,j]!=-1:
-                plt.plot(i,j,'.b')
+
 
     t=t+dt
-    plt.show()
-    plt.pause(0.5)
+
     # count number of fish and number of shark
     fish_num=0
     for i in range(size):
@@ -213,7 +211,15 @@ while t < Time:
     Shark_number.append(shark_num)
     print "Completed: "+str(100*t/Time)+"%"
 
-
+    for i in range(size):
+        for j in range(size):
+            if Shark[i,j]!=-1:
+                plt.plot(i,j,'or')
+            if Fish[i,j]!=-1:
+                plt.plot(i,j,'ob')
+    plt.title("time = "+str(t)+'\tSharks: ' + str(shark_num)+'\tFish: ' + str(fish_num))
+    plt.show()
+    plt.pause(wait_time)
 
 #figure
 #plt.plot(Fish_number, '-b', label = "Fish")
