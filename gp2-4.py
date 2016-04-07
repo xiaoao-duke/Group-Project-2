@@ -18,11 +18,11 @@ breed_age_Fish = 15 # in units of dt
 breed_age_Shark = 18 # dt units
 starve_time = 5 # dt units
 t = 0
-Fish = -1*np.ones((size+1, size+1), dtype=np.int)
-Shark = -1*np.ones((size+1, size+1), dtype=np.int)
-Fishmove = -1*np.ones((size+1, size+1), dtype=np.int)
-Sharkmove = -1*np.ones((size+1, size+1), dtype=np.int)
-Sharkstarve = np.zeros((size+1, size+1), dtype=np.int)
+Fish = -1*np.ones((size, size), dtype=np.int)
+Shark = -1*np.ones((size, size), dtype=np.int)
+Fishmove = -1*np.ones((size, size), dtype=np.int)
+Sharkmove = -1*np.ones((size, size), dtype=np.int)
+Sharkstarve = np.zeros((size, size), dtype=np.int)
 
 ############################ Initial Conditions ################################
 
