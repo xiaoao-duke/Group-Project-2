@@ -5,6 +5,8 @@ gp2-2.py makes a movie of the sharks and fish while they swim
 
 gp2-3.py Fixes the movement of shark and fish--please double check this (I had to make many changes).
 
+GP_Assignment_2.tex /.pdf is the document 
+
 Things left to do:
 -- Write document
 -- Make presentation
