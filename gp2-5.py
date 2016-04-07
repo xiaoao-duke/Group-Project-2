@@ -158,8 +158,8 @@ def Shark_hunt_breed(i,j,Fish,Fishmove,Shark,Sharkmove,Sharkstarve):
                 Sharkmove[i,j] = 0
                 Sharkstarve[boundary(temp[index])] = 0
                 Sharkstarve[i,j] = 0
-        elif np.size(planB) > 0:
-            index = int(np.random.choice(planB)-1)
+        elif np.size(PlanB) > 0:
+            index = int(np.random.choice(PlanB)-1)
             if Sharkstarve[i,j] < starve_time:
                 if Shark[i,j] < breed_age_Shark:
                     Sharkmove[boundary(temp[index])] = Shark[i,j]+1
