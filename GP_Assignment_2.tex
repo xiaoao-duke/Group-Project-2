@@ -167,7 +167,19 @@ Modeling the interactions between predator and prey is a question of great ecolo
 \end{figure}
 
 In this work we study the behavior of a slightly different model, one that  is similar to the Lotka-Volterra Model in that it consists of only a simple set of rules, but the nature of the actual simulation is quite different. In our case, we consider two populations, sharks and fish living on a two-dimensional lattice. We simulate the movement and behavior of each shark and fish individually and can observe fluctuations of the two populations as a function of time. Unlike the Lotka-Volterra Model, however, we are able to see exactly where all of the sharks and fish are and this allows us to attain a deeper understanding of what causes the fluctuations in populations and the conditions that may lead to extinction. 
-	
+\section{Classical Lotka-Volterra Model}	
+The classical Lotka-Volterra Model is given by:
+
+
+\begin{equation}
+x' = x(\alpha-\beta y)
+\end{equation}
+\begin{equation}
+y' = -y(\gamma -\delta x)
+\end{equation}
+
+where $\alpha x$ is the growth term which leads to exponential growth of prey population in absence of predators; $-\beta yx$ is the loss term which depends both on numbers of predators $y$ and number of prey $x$; 
+
 \section{Implementation}
 
 The model we consider is remarkably simple in that there are only five user input parameters: the initial number of sharks $n0\_sharks$, initial number of fish $n0\_fish$, the time it takes fish to breed $breed\_age\_Fish$, the time it takes sharks to breed $breed\_age\_Shark$, and the time it takes a shark to starve $starve\_time$. To begin the simulation, one creates $n0\_sharks$ sharks and $n0\_fish$ fish at random locations on a two-dimensional lattice, and each fish or shark is given a random age between $breed\_age\_Fish$ and $breed\_age\_Shark$, respectively. At each subsequent time step of the simulation both sharks and fish will swim around the grid, and the sharks will attempt to eat the fish. Below we discuss the specific rules that dictate the movements of the fish and sharks.
@@ -191,13 +203,69 @@ We use a set of five arrays to keep track of the information necessary to run th
 
 \section{Numerical Results}
 
+By choosing a $100*100$ 2D torus grid where 2000 fish and 200 sharks of random ages are randomly put as initial condition, it can be seen that as time goes on, the populations of fish and shark experience periodic variations. The number of fish increases most significantly when number of sharks reaches a valley, and decreases most sharply when shark reaches its peaks, as shown in Fig.3. The phase plane is shown in Fig.4. If we trace the dynamics of the system in each time step, it can be seen that sometimes fish fill out the whole grid and sometimes become almost extinct(Fig.6-10). This reminds us that the capacity of the grid is the upper constraint for the fish number, so the classical Lotka-Volterra equations must be modified to adapt to this simulation. Instead of exponential growth, the fish number should be described as logistic, and so does the sharks:
+
+\begin{equation}
+x' = x(A - Bx - Cy)
+\end{equation}
+\begin{equation}
+y' = -y(D - EY -Fx)
+\end{equation}
+which gives phase diagram (Fig.10) that properly coincide with simulation result (Fig.4).
+
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width = 0.5\textwidth]{fish10shark15starve8}}
-	\subfloat{\includegraphics[width = 0.5\textwidth]{fish10shark25starve8}}\\
-	\subfloat{\includegraphics[width = 0.5\textwidth]{fish20shark15starve8}}
-	\subfloat{\includegraphics[width = 0.5\textwidth]{fish20shark25starve5}}
-	\caption{}
+	\subfloat{\includegraphics[width = 0.7\textwidth]{pop3.jpg}}
+	\caption{Population evolution of fish and sharks.}
+	\label{more_clusters} 
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.8\textwidth]{phase_portrait.pdf}}	
+	\caption{Population evolution of fish and sharks.}
+	\label{more_clusters} 
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.7\textwidth]{PreyPredator.pdf}}
+	\caption{Phase diagram of modified Lotka-Volterra equations.}
+	\label{more_clusters} 
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.33\textwidth]{1.jpg}}
+	\subfloat{\includegraphics[width = 0.33\textwidth]{46.jpg}}
+	\subfloat{\includegraphics[width = 0.33\textwidth]{98.jpg}}	
+	\caption{Population evolution of fish and sharks.}
+	\label{more_clusters} 
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.33\textwidth]{222.jpg}}
+	\subfloat{\includegraphics[width = 0.33\textwidth]{324.jpg}}
+	\caption{Population evolution of fish and sharks.}
+	\label{more_clusters} 
+\end{figure}
+
+If initial conditions are far off the stable point, extinction of sharks or fish can be observed (Fig.)
+
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.7\textwidth]{pop5.pdf}}
+	\caption{Extinction of both fish and sharks.}
+	\label{more_clusters} 
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\subfloat{\includegraphics[width = 0.7\textwidth]{pop6.pdf}}
+	\caption{Extinction of sharks.}
 	\label{more_clusters} 
 \end{figure}
  
