@@ -203,7 +203,7 @@ We use a set of five arrays to keep track of the information necessary to run th
 
 \section{Numerical Results}
 
-By choosing a $100*100$ 2D torus grid where 2000 fish and 200 sharks of random ages are randomly put as initial condition, it can be seen that as time goes on, the populations of fish and shark experience periodic variations. The number of fish increases most significantly when number of sharks reaches a valley, and decreases most sharply when shark reaches its peaks, as shown in Fig.3. The phase plane is shown in Fig.4. If we trace the dynamics of the system in each time step, it can be seen that sometimes fish fill out the whole grid and sometimes become almost extinct(Fig.6-10). This reminds us that the capacity of the grid is the upper constraint for the fish number, so the classical Lotka-Volterra equations must be modified to adapt to this simulation. Instead of exponential growth, the fish number should be described as logistic, and so does the sharks:
+By choosing a $100*100$ 2D torus grid where 2000 fish and 200 sharks of random ages are randomly put as initial condition, it can be seen that as time goes on, the populations of fish and shark experience periodic variations. The number of fish increases most significantly when number of sharks reaches a valley, and decreases most sharply when shark reaches its peaks, as shown in Fig.3. The phase plane is shown in Fig.4. If we trace the dynamics of the system in each time step, it can be seen that sometimes fish fill out the whole grid and sometimes become almost extinct (Fig.6-9). This reminds us that the capacity of the grid is the upper constraint for the fish number, so the classical Lotka-Volterra equations must be modified to adapt to this simulation. Instead of exponential growth, the fish number should be described as logistic, and so does the sharks:
 
 \begin{equation}
 x' = x(A - Bx - Cy)
@@ -215,7 +215,7 @@ which gives the analytic phase diagram (Fig.5) that properly coincide with simul
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width = 0.7\textwidth]{pop3.jpg}}
+	\subfloat{\includegraphics[width = 0.65\textwidth]{pop3.jpg}}
 	\caption{Population evolution of fish and sharks.}
 	\label{more_clusters} 
 \end{figure}
@@ -223,8 +223,8 @@ which gives the analytic phase diagram (Fig.5) that properly coincide with simul
 
 \begin{figure}[H]
 	\centering
-	\subfloat{\includegraphics[width = 0.8\textwidth]{phase_portrait.pdf}}	
-	\caption{Population evolution of fish and sharks.}
+	\subfloat{\includegraphics[width = 0.75\textwidth]{phase_portrait.pdf}}	
+	\caption{Population evolution of fish and sharks in phase space.}
 	\label{more_clusters} 
 \end{figure}
 
@@ -270,6 +270,8 @@ This initial condition gives a stable periodic revolution. However, if initial c
 	\label{more_clusters} 
 \end{figure}
  
+\section{Conclusion}
+The shark and fish predator-prey model we have described above possesses many qualities of the Lotkka-Voltera model, such as the ability of each species to go extinct ant the ability oscillate around an equilibrium. Indeed, we have show that the results of the simulation, when considered in phase space, are in good agreement with a modified version of the Lotkka-Voltera model. What distinguishes our model, however, is that we are able to observe the individual members of the species in real time, allowing us to gain a better intuition for why fluctuations in populations occur in the first place, and why certain initial conditions are liable to produce mass extinctions. 
   
 \end{document}
 	
